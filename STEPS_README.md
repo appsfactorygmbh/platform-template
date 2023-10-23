@@ -65,9 +65,11 @@ Applies custom argocd-cm for Application Health Status
 
 ### Sync Wave 0
 - NGINX Ingress
-- Crossplane
 
 ### Sync Wave 1
+- Crossplane
+
+### Sync Wave 2
 - Providers for Cloud native environment (AWS, Azure, GCP, IONOS or others)
 
 ## Open ArgoCD and Wait
