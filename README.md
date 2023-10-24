@@ -82,7 +82,7 @@ Steps:
         -n crossplane-system \
         --from-file=creds=./aws-credentials.txt
     ```
-12. Create a `provider-<cloudprovider>-config` file in `gitops/applications` directory
+12. Create a `provider-config-<cloudprovider>` file in `gitops/applications` directory
 13. Follow the steps 2-5
 14. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "3"`
 15. Create the Provider config file in the newly created directory (a sample for AWS is found below, **Please remember to change the `<cloudprovider>`** ):
