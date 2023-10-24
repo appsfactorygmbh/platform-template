@@ -63,7 +63,7 @@ Steps:
 3. Create a directory under `gitops/manifests` for the cloud provider (z.B. `provider-aws` for aws )
 4. Replace the `path` from `gitops/manifests/argo-config` to the newly created path
 5. Update the `metadata.name` to `provider-<cloudprovider>`
-6. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "3"`
+6. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "2"`
 7. Create a Provider yaml file in the newly created directory (you can find the provider from [here](https://marketplace.upbound.io/providers)) depending on which resource is expected
     ```shell
     apiVersion: pkg.crossplane.io/v1
@@ -84,7 +84,7 @@ Steps:
     ```
 12. Create a `provider-<cloudprovider>-config` file in `gitops/applications` directory
 13. Follow the steps 2-5
-14. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "4"`
+14. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "3"`
 15. Create the Provider config file in the newly created directory (a sample for AWS is found below):
     ```shell
     apiVersion: aws.upbound.io/v1beta1
@@ -101,6 +101,6 @@ Steps:
     ```
 16. Repeat steps 8-9
 17. After it is synchronized, you are ready to create cloud resources.
-18. Please follow the steps 1-9 for the cloud resource (remember to change the `argocd.argoproj.io/sync-wave` to 5 or more depending on the order)
+18. Please follow the steps 1-9 for the cloud resource (remember to change the `argocd.argoproj.io/sync-wave` to 4 or more depending on the order)
 
 Now you can see the changes in your cloud resources and Viola!
