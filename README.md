@@ -55,31 +55,37 @@ If you would like to follow the traditional approach, you can follow [this page]
 
 In this project, we are following the ArgoCD [App of App](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) and [sync waves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) approach
 
+**Note: Please replace `<cloudprovider>` with the cloud you use. z.B. if you use aws, you would use `provider-aws` in the following steps**
+
 Steps:
-1. Create a `provider-config.yaml` file in `gitops/applications` directory
+1. Create a `provider-<cloudprovider>.yaml` file in `gitops/applications` directory
 2. Copy the contents of `argo-config.yaml` file within the `gitops/applications` directory
-3. Create a folder under `gitops/manifests` to the cloud provider (z.B. `provider-aws` for aws )
+3. Create a directory under `gitops/manifests` for the cloud provider (z.B. `provider-aws` for aws )
 4. Replace the `path` from `gitops/manifests/argo-config` to the newly created path
-5. Update the `metadata.name` to `provider-config`
-6. Create a Provider yaml file (you can find the provider from [here](https://marketplace.upbound.io/providers)) depending on which resource is expected
+5. Update the `metadata.name` to `provider-<cloudprovider>`
+6. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "3"`
+7. Create a Provider yaml file in the newly created directory (you can find the provider from [here](https://marketplace.upbound.io/providers)) depending on which resource is expected
     ```shell
     apiVersion: pkg.crossplane.io/v1
     kind: Provider
     metadata:
-      name: provider-aws-s3
+      name: provider-aws
     spec:
-      package: xpkg.upbound.io/upbound/provider-aws-s3:v0.42.0
+      package: xpkg.upbound.io/crossplane-contrib/provider-aws:v0.44.2
     ```
-7. Commit and push the changes
-8. Check the changes in ArgoCD console (http://argocd.127.0.0.1.nip.io)
-9. After the changes are synchronized and applied, create a credentials file in your local directory (reference: [aws credentials](https://docs.crossplane.io/v1.13/getting-started/provider-aws/#generate-an-aws-key-pair-file))
-10. You can create the secret using the following command:
+8. Commit and push the changes
+9. Check the changes in ArgoCD console (http://argocd.127.0.0.1.nip.io)
+10. After the changes are synchronized and applied, create a credentials file in your local directory (reference: [aws credentials](https://docs.crossplane.io/v1.13/getting-started/provider-aws/#generate-an-aws-key-pair-file))
+11. You can create the secret using the following command:
     ```shell
     kubectl create secret generic aws-secret \
         -n crossplane-system \
         --from-file=creds=./aws-credentials.txt
     ```
-11. Create the Provider config file (a sample for AWS is found below):
+12. Create a `provider-<cloudprovider>-config` file in `gitops/applications` directory
+13. Follow the steps 2-5
+14. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "4"`
+15. Create the Provider config file in the newly created directory (a sample for AWS is found below):
     ```shell
     apiVersion: aws.upbound.io/v1beta1
     kind: ProviderConfig
@@ -93,8 +99,8 @@ Steps:
           name: aws-secret
           key: creds
     ```
-12. Repeat steps 7-8
-13. After it is synchronized, you are ready to create cloud resources.
-14. Please follow the steps 1-5 for the cloud resource and then steps 7-8 for changes
+16. Repeat steps 8-9
+17. After it is synchronized, you are ready to create cloud resources.
+18. Please follow the steps 1-9 for the cloud resource (remember to change the `argocd.argoproj.io/sync-wave` to 5 or more depending on the order)
 
 Now you can see the changes in your cloud resources and Viola!

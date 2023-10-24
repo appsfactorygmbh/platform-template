@@ -72,6 +72,16 @@ Applies custom argocd-cm for Application Health Status
 ### Sync Wave 2
 - Providers for Cloud native environment (AWS, Azure, GCP, IONOS or others)
 
+### Sync Wave 3
+- Provider Configs with secrets for the above mentioned environment
+
+**Note: Please make sure to create a `credential.txt` or `credential.json` file and then run the following command before applying this change:**
+
+Please replace the `credential.txt` with the credential file that you created in your local directory and make sure to add this file to `.gitignore`
+```shell
+kubectl create secret generic aws-secret -n crossplane-system --from-file=creds=./credentials.txt
+```
+
 ## Open ArgoCD and Wait
 Open ArgoCD by going to `http://localhost:8080`
 
