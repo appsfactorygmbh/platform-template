@@ -29,7 +29,7 @@ than a traditional CI/CD tool.
 
 Secondly, Crossplane is an IaC tool which utilizes a Kubernetes cluster to store the state instead of a container
 (z. B. S3 for AWS, Azure Blob Storage for Azure). It is beneficial for cloud native environment because as a DevOps engineer,
-when any changes to infrastructure is made unintensionally, it messes up the entire state unlike Pulumi and Terraform, which
+when any changes to infrastructure is made unintentionally, it messes up the entire state unlike Pulumi and Terraform, which
 are good tools as well.
 
 Henceforth, Combining Crossplane and ArgoCD, you can make changes to infrastructure by using PRs to review changes and
@@ -76,7 +76,7 @@ Steps:
 8. Commit and push the changes
 9. Check the changes in ArgoCD console (http://argocd.127.0.0.1.nip.io)
 10. After the changes are synchronized and applied, create a credentials file in your local directory (reference: [aws credentials](https://docs.crossplane.io/v1.13/getting-started/provider-aws/#generate-an-aws-key-pair-file))
-11. You can create the secret using the following command:
+11. You can create the secret using the following command (**please change the name `aws-secret` and `aws-credentials.txt` based on the secret you want and the credentials fle you created**):
     ```shell
     kubectl create secret generic aws-secret \
         -n crossplane-system \
@@ -85,12 +85,12 @@ Steps:
 12. Create a `provider-<cloudprovider>-config` file in `gitops/applications` directory
 13. Follow the steps 2-5
 14. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "3"`
-15. Create the Provider config file in the newly created directory (a sample for AWS is found below):
+15. Create the Provider config file in the newly created directory (a sample for AWS is found below, **Please remember to change the `<cloudprovider>`** ):
     ```shell
     apiVersion: aws.upbound.io/v1beta1
     kind: ProviderConfig
     metadata:
-      name: default
+      name: config-<cloudprovider>
     spec:
       credentials:
         source: Secret
