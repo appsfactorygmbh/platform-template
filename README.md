@@ -87,7 +87,7 @@ Steps:
 14. Change `argocd.argoproj.io/sync-wave: "-1"` to `argocd.argoproj.io/sync-wave: "3"`
 15. Create the Provider config file in the newly created directory (a sample for AWS is found below, **Please remember to change the `<cloudprovider>`** ):
     ```shell
-    apiVersion: aws.upbound.io/v1beta1
+    apiVersion: aws.crossplane.io/v1beta1
     kind: ProviderConfig
     metadata:
       name: config-<cloudprovider>
